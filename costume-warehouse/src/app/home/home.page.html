@@ -1,0 +1,65 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Home
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Home</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-list>
+    <ion-item *ngFor="let costume of costumes" (click)="goToCostumeDetail(costume)">
+      <ion-label>{{costume.name}}</ion-label>
+      <ion-label>{{costume.count}}</ion-label>
+      <ion-button (click)="deleteCostume(costume); $event.stopPropagation()" slot="end">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+  <ion-card *ngIf="showForm">
+    <ion-card-header>
+      <ion-card-title>Kostuem anlegen</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">ID(automatisch)</ion-label>
+        <ion-input [(ngModel)]="formData.id" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input [(ngModel)]="formData.name" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Beschreibung</ion-label>
+        <ion-input [(ngModel)]="formData.description"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Preis</ion-label>
+        <ion-input [(ngModel)]="formData.price"></ion-input>
+      </ion-item><ion-item>
+        <ion-label position="floating">Groesse</ion-label>
+        <ion-input [(ngModel)]="formData.size"></ion-input>
+      </ion-item><ion-item>
+        <ion-label position="floating">Farbe</ion-label>
+        <ion-input [(ngModel)]="formData.color"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Stueckzahl</ion-label>
+        <ion-input [(ngModel)]="formData.count"></ion-input>
+      </ion-item>
+      <ion-button expand="block" (click)="submitForm()">Hinzufuegen</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+    
+
+  <ion-button id="middle" (click)="addCostume()" expand="block" >
+    <ion-icon name="add-circle-outline"></ion-icon>
+  </ion-button>
+</ion-content>
