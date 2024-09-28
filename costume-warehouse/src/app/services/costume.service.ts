@@ -1,32 +1,37 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CostumeService {
-  costumes = [{id:1000,name: 'Costume 1', description: 'This is a costume', price: '100', size: 'M', color: 'Red', count: '20',img:"https://imgs.search.brave.com/ayfT6axNk7K_j4oN3sPrj30U1Xq_0jzMoQEn4ScXajY/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVnYW9vLmRlL2lt/YWdlcy9yZXBfYXJ0/L2xpc3RfdjUvMTcw/LzkvMTcwOTc5L3Bp/cmF0ZW4ta29zdHVt/LWZ1ci1kYW1lbi01/LXRlaWxpZy5qcGc"}];
+  constructor(private firestore: AngularFirestore) {}
 
-  constructor(private firestore: AngularFirestore ) {}
-
-  addCostume(costume: any) {
-    const id = this.firestore.createId();
-    return this.firestore.doc(`costumes/${id}`).set({...costume, id});
+  getCostumeById(id: string) {
+    return this.firestore.collection('costumes').doc(id).valueChanges();
   }
-  getCostumeById(id: number) {
-    return this.costumes.find(costume => costume.id === +id);  
-  }
+  
 
   getCostumes() {
-    return this.firestore.collection('costumes').valueChanges();
-
+    return this.firestore.collection('costumes').snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as any; 
+        const id = a.payload.doc.id; 
+        return { id, ...data }; 
+      }))
+    );
   }
 
-  deleteCostume(id: string) {
-    return this.firestore.doc(`costumes/${id}`).delete();
+  addCostume(costume: any): Promise<any> {
+    const costumeRef = this.firestore.collection('costumes').doc();
+    return costumeRef.set(costume).then(()=> {
+      return { id: costumeRef, ...costume };
+    })
   }
 
-  updateCostume(costume: any) {
-    return this.firestore.doc(`costumes/${costume.id}`).update(costume);
+  deleteCostume(costumeId: string): Promise<void> {
+    return this.firestore.collection('costumes').doc(costumeId).delete();
   }
 }
