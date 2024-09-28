@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CostumeService } from '../services/costume.service';
-import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -9,89 +8,42 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['home.page.scss']
 })
 export class homePage {
-  showForm = false;
-  formData = {
-    name: '',
-    description: '',
-    price: '',
-    size: '',
-    color: '',
-    count: '',
-    img: ''
-   }; 
-  costumes: any[] = [];
+showForm = false;
+formData = { id: 0 ,name:'', description:'', price:'', size:'', color:'', count:''};
+item: any;
+costumes: any[] = [];
 
-  constructor(private router: Router, private costumeService: CostumeService,private toastCtrl: ToastController) {}
+constructor(private router: Router,private costumeService: CostumeService) {}
 
-  ngOnInit() {
-    this.loadCostumes();
-  }
 
-  loadCostumes() {
-    this.costumeService.getCostumes().subscribe(data => {
-      this.costumes = data;
-    });
-  }
+ngOnInit() {
+  this.loadCostumes();
+}
 
-  addCostume() {
-    this.showForm = !this.showForm;
-    if (!this.showForm) {
-      this.resetForm(); 
-    }
-  }
+loadCostumes() {
+  this.costumeService.getCostumes().subscribe(data=> {
+    this.costumes = data;
+  });
+}
 
-  resetForm() {
-    this.formData = {name: '', description: '', price: '', size: '', color: '', count: '',img: '' }; 
-  }
+addCostume() {
+  this.showForm = !this.showForm;
 
-  async submitForm() {
-    console.log(this.formData);
-    
-    if (!this.formData.name || !this.formData.size || !this.formData.count) {
-      const toast = await this.toastCtrl.create({
-        message: 'Bitte gebe Name, Größe und Anzahl ein',
-        duration: 3000,
-        position: 'bottom'
-      });
-      toast.onDidDismiss().then(() => {
-        console.log('Toast dismissed');
-      });
-      toast.present();
-      console.error('Bitte gebe Name, Größe und Anzahl ein');
-      return; 
-    }
-  
-    this.costumeService.addCostume(this.formData).then((newCostume) => {
-      console.log('Costume added:', newCostume); 
-      this.costumes.push(newCostume); 
-      this.resetForm(); 
-      this.showForm = false; 
-    }).catch(error => {
-      console.error('Error adding costume:', error);
-    });
-  }
-  
+}
 
-  deleteCostume(costumeId: string) {
-    this.costumeService.deleteCostume(costumeId).then(() => {
-      console.log('Costume deleted:', costumeId);
-      this.loadCostumes();
-    }).catch(error => {
-      console.error('Error deleting costume:', error);
-    });
-  }
+submitForm() {
+  console.log(this.formData);
+  this.costumeService.addCostume(this.formData);
+}
 
-  goToCostumeDetail(costume: any) {
-    this.router.navigate(['/costume-detail', costume.id]);
-  }
+deleteCostume(item:any) {
+  this.costumes = this.costumes.filter((costume: any) => costume !== item);
+  console.log(this.item);
+ }
 
-  hideForm() {
-    this.showForm = false;
-    
-  }
+goToCostumeDetail(costume:any) {
+  this.router.navigate(['/costume-detail', costume.id]);
+}
 
-  takeOrUploadFoto() {
-
-  }
 
 }
