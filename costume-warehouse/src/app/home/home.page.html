@@ -16,7 +16,7 @@
     <ion-item *ngFor="let costume of costumes" (click)="goToCostumeDetail(costume)">
       <ion-label>{{costume.name}}</ion-label>
       <ion-label>{{costume.count}}</ion-label>
-      <ion-button (click)="deleteCostume(costume); $event.stopPropagation()" slot="end">
+      <ion-button (click)="deleteCostume(costume.id); $event.stopPropagation()" slot="end">
         <ion-icon name="trash"></ion-icon>
       </ion-button>
     </ion-item>
@@ -27,10 +27,6 @@
     </ion-card-header>
   
     <ion-card-content>
-      <ion-item>
-        <ion-label position="floating">ID(automatisch)</ion-label>
-        <ion-input [(ngModel)]="formData.id" ></ion-input>
-      </ion-item>
       <ion-item>
         <ion-label position="floating">Name</ion-label>
         <ion-input [(ngModel)]="formData.name" ></ion-input>
@@ -53,7 +49,15 @@
         <ion-label position="floating">Stueckzahl</ion-label>
         <ion-input [(ngModel)]="formData.count"></ion-input>
       </ion-item>
-      <ion-button expand="block" (click)="submitForm()">Hinzufuegen</ion-button>
+      <ion-item>
+        <ion-label position="floating">Bild</ion-label>
+        <ion-button style="margin-left: 50px;" (click)="takeOrUploadFoto()">
+          <ion-icon name="camera"></ion-icon>
+        </ion-button>
+        <ion-input [(ngModel)]="formData.img"></ion-input>
+      </ion-item>
+        <ion-button style="display: flex; justify-content: center;"  slot="start" (click)="submitForm()">Hinzufuegen</ion-button>
+        <ion-button  style="display: flex; justify-content: center" slot="end" color="danger" (click)="hideForm()">Abbrechen</ion-button>
     </ion-card-content>
   </ion-card>
 
