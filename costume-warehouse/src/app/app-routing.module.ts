@@ -5,8 +5,18 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+  },
+  {
+    path: 'costume-detail/:id',
+    loadChildren: () => import('./costume-detail/costume-detail.module').then(m => m.CostumeDetailPageModule)
+  },
+  {
+    path:'**',
+    redirectTo: '',
+    pathMatch: 'full'
   }
 ];
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
