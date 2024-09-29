@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, of } from 'rxjs';
@@ -33,5 +34,16 @@ export class CostumeService {
 
   deleteCostume(costumeId: string): Promise<void> {
     return this.firestore.collection('costumes').doc(costumeId).delete();
+  }
+
+  updateCostume(id: string, formData: any){
+    return this.firestore.collection('costumes').doc(id).update(formData)
+      .then(() => {
+        console.log('Kostüm erfolgreich aktualisiert!');
+      })
+      .catch(error => {
+        console.error('Fehler beim Aktualisieren des Kostüms: ', error);
+        throw error; 
+      });
   }
 }

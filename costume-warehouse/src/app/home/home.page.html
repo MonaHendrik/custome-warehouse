@@ -3,6 +3,11 @@
     <ion-title>
       Home
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="addCostume()">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +17,7 @@
       <ion-title size="large">Home</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-list>
+  <ion-list *ngIf="!showForm" >
     <ion-item *ngFor="let costume of costumes" (click)="goToCostumeDetail(costume)">
       <ion-label>{{costume.name}}</ion-label>
       <ion-label>{{costume.count}}</ion-label>
@@ -50,6 +55,10 @@
         <ion-input [(ngModel)]="formData.count"></ion-input>
       </ion-item>
       <ion-item>
+        <ion-label position="floating">Ausgeliehen</ion-label>
+        <ion-input [(ngModel)]="formData.lent"></ion-input>
+      </ion-item>
+      <ion-item>
         <ion-label position="floating">Bild</ion-label>
         <ion-button style="margin-left: 50px;" (click)="takeOrUploadFoto()">
           <ion-icon name="camera"></ion-icon>
@@ -63,7 +72,4 @@
 
     
 
-  <ion-button id="middle" (click)="addCostume()" expand="block" >
-    <ion-icon name="add-circle-outline"></ion-icon>
-  </ion-button>
 </ion-content>

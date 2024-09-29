@@ -16,8 +16,9 @@ export class homePage {
     price: '',
     size: '',
     color: '',
-    count: '',
-    img: ''
+    count: 0,
+    img: '',
+    lent: '',
    }; 
   costumes: any[] = [];
 
@@ -41,7 +42,7 @@ export class homePage {
   }
 
   resetForm() {
-    this.formData = {name: '', description: '', price: '', size: '', color: '', count: '',img: '' }; 
+    this.formData = {name: '', description: '', price: '', size: '', color: '', count: 0 ,img: '', lent: ''}; 
   }
 
   async submitForm() {

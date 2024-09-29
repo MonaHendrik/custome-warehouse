@@ -4,6 +4,11 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>{{ costume?.name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="editCostume()">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -16,11 +21,70 @@
     </ion-card-header>
 
     <ion-card-content>
-      <p>{{ costume?.description }}</p>
-      <p>Price: {{ costume?.price }}</p>
-      <p>Size: {{ costume?.size }}</p>
-      <p>Color: {{ costume?.color }}</p>
-      <p>Available Count: {{ costume?.count }}</p>
+      <div class="costume-details">
+        <p><strong>Beschreibung:</strong> {{ costume?.description }}</p>
+        <p><strong>Preis:</strong> {{ costume?.price | currency:'EUR' }}</p>
+        <p><strong>Größe:</strong> {{ costume?.size }}</p>
+        <p><strong>Farbe:</strong> {{ costume?.color }}</p>
+        <p><strong>Verfügbare Anzahl:</strong> {{ costume?.count }}</p>
+        <p><strong>Ausgeliehen:</strong> {{ costume?.lent }}</p>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="showForm">
+    <ion-card-header>
+      <ion-card-title>Kostüm anlegen / bearbeiten</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Name</ion-label>
+        <ion-input [(ngModel)]="formData.name" [ngModelOptions]="{ standalone: true }">{{ costume?.name }}</ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Beschreibung</ion-label>
+        <ion-textarea [(ngModel)]="formData.description" [ngModelOptions]="{ standalone: true }">{{ costume?.description }}</ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Preis</ion-label>
+        <ion-input type="number" [(ngModel)]="formData.price" [ngModelOptions]="{ standalone: true }">{{ costume?.price }}</ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Größe</ion-label>
+        <ion-input [(ngModel)]="formData.size" [ngModelOptions]="{ standalone: true }">{{ costume?.size }}</ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Farbe</ion-label>
+        <ion-input [(ngModel)]="formData.color" [ngModelOptions]="{ standalone: true }">{{ costume?.color }}</ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Stückzahl</ion-label>
+        <ion-input type="number" [(ngModel)]="formData.count" [ngModelOptions]="{ standalone: true }">{{ costume?.count }}</ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Ausgeliehen</ion-label>
+        <ion-input type="number" [(ngModel)]="formData.lent" [ngModelOptions]="{ standalone: true }">{{ costume?.lent }}</ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Bild</ion-label>
+        <ion-button style="margin-left: 50px;" (click)="takeOrUploadFoto()">
+          <ion-icon name="camera"></ion-icon>
+        </ion-button>
+        <ion-input [(ngModel)]="formData.img" [ngModelOptions]="{ standalone: true }"></ion-input>
+      </ion-item>
+
+      <div class="button-group">
+        <ion-button expand="full" color="primary" (click)="submitForm()">bearbeiten</ion-button>
+        <ion-button expand="full" color="danger" (click)="hideForm()">Abbrechen</ion-button>
+      </div>
     </ion-card-content>
   </ion-card>
 </ion-content>
