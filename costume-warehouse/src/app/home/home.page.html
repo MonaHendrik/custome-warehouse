@@ -72,9 +72,8 @@
         <input #fileUploadInput type="file" accept="image/*" style="display: none;" (change)="onFileSelected($event)" />
         <input id="cameraInput" type="file" accept="image/*" capture="camera" style="display: none;" (change)="onCameraCapture($event)" />
       </ion-item>
-      <ion-img *ngIf="formData.img" [src]="formData.img"></ion-img>
-           
-        <ion-button style="display: flex; justify-content: center;"  slot="start" (click)="submitForm()">Hinzufuegen</ion-button>
+      <img *ngIf="formData.img" [src]="formData.img" alt="Hochgeladenes Bild" style="width: 100px; height: 100px;">
+      <ion-button style="display: flex; justify-content: center;"  slot="start" (click)="submitForm()">Hinzufuegen</ion-button>
         <ion-button  style="display: flex; justify-content: center" slot="end" color="danger" (click)="hideForm()">Abbrechen</ion-button>
     </ion-card-content>
   </ion-card>

@@ -13,16 +13,14 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <img [src]="costume?.img" alt="Costume Image" />
-
+  <ion-card *ngIf="!showForm">
+    <img *ngIf="formData.img" [src]="formData.img" alt="Hochgeladenes Bild" style="width: 100px; height: 100px;">
     <ion-card-header>
       <ion-card-title>{{ costume?.name }}</ion-card-title>
     </ion-card-header>
-
-    <ion-card-content>
+  <ion-card-content>
       <div class="costume-details">
-        <p><strong>Beschreibung:</strong> {{ costume?.description }}</p>
+        <p><strong>Info:</strong> {{ costume?.description }}</p>
         <p><strong>Preis:</strong> {{ costume?.price | currency:'EUR' }}</p>
         <p><strong>Größe:</strong> {{ costume?.size }}</p>
         <p><strong>Farbe:</strong> {{ costume?.color }}</p>
@@ -44,7 +42,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label>Beschreibung</ion-label>
+        <ion-label>Info</ion-label>
         <ion-textarea [(ngModel)]="formData.description" [ngModelOptions]="{ standalone: true }"></ion-textarea>
       </ion-item>
 
@@ -83,7 +81,7 @@
         <input #fileUploadInput type="file" accept="image/*" style="display: none;" (change)="onFileSelected($event)" />
         <input id="cameraInput" type="file" accept="image/*" capture="camera" style="display: none;" (change)="onCameraCapture($event)" />
       </ion-item>
-      <ion-img *ngIf="formData.img" [src]="formData.img"></ion-img>
+      <img *ngIf="formData.img" [src]="formData.img" alt="Hochgeladenes Bild" style="width: 100px; height: 100px;">
       <div class="button-group">
         <ion-button expand="full" color="primary" (click)="submitForm()">bearbeiten</ion-button>
         <ion-button expand="full" color="danger" (click)="hideForm()">Abbrechen</ion-button>

@@ -165,22 +165,21 @@ export class homePage {
     const img = new Image();
     img.src = src;
     img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      
-      // Set desired output size (reduce resolution)
-      const maxWidth = 800; // Max width or height
-      const scaleSize = maxWidth / img.width;
-      
-      canvas.width = maxWidth;
-      canvas.height = img.height * scaleSize;
-      
-      ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
-      
-      // Convert to base64 with reduced quality
-      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7); // 70% quality
-      callback(compressedDataUrl);
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        const maxWidth = 100;  // Setze die maximale Breite auf 100px
+        const scaleSize = maxWidth / img.width;
+        
+        canvas.width = maxWidth;
+        canvas.height = img.height * scaleSize;  // Höhe basierend auf dem Seitenverhältnis
+        
+        ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7); 
+        callback(compressedDataUrl);
     };
-  }
+}
+
 
 }
