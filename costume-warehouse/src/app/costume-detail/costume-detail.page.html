@@ -72,15 +72,18 @@
         <ion-label>Ausgeliehen</ion-label>
         <ion-input type="number" [(ngModel)]="formData.lent" [ngModelOptions]="{ standalone: true }"></ion-input>
       </ion-item>
-
       <ion-item>
-        <ion-label>Bild</ion-label>
-        <ion-button style="margin-left: 50px;" (click)="takeOrUploadFoto()">
+        <ion-label position="floating">Bild
+        <ion-button slot="end" (click)="takeOrUploadFoto()">
           <ion-icon name="camera"></ion-icon>
         </ion-button>
-        <ion-input [(ngModel)]="formData.img" [ngModelOptions]="{ standalone: true }"></ion-input>
+      </ion-label>
+        <ion-toast id="dynamicToast" duration="3000" message="Choose an option"></ion-toast>
+        <ion-input [(ngModel)]="formData.img" [ngModelOptions]="{ standalone: true }" ></ion-input>
+        <input #fileUploadInput type="file" accept="image/*" style="display: none;" (change)="onFileSelected($event)" />
+        <input id="cameraInput" type="file" accept="image/*" capture="camera" style="display: none;" (change)="onCameraCapture($event)" />
       </ion-item>
-
+      <ion-img *ngIf="formData.img" [src]="formData.img"></ion-img>
       <div class="button-group">
         <ion-button expand="full" color="primary" (click)="submitForm()">bearbeiten</ion-button>
         <ion-button expand="full" color="danger" (click)="hideForm()">Abbrechen</ion-button>
