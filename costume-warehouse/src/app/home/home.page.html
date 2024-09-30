@@ -42,7 +42,7 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating">Preis</ion-label>
-        <ion-input [(ngModel)]="formData.price"></ion-input>
+        <ion-input type="number" [(ngModel)]="formData.price"></ion-input>
       </ion-item><ion-item>
         <ion-label position="floating">Groesse</ion-label>
         <ion-input [(ngModel)]="formData.size"></ion-input>
@@ -52,7 +52,7 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating">Stueckzahl</ion-label>
-        <ion-input [(ngModel)]="formData.count"></ion-input>
+        <ion-input type="number" [(ngModel)]="formData.count"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Ausgeliehen</ion-label>
@@ -63,9 +63,13 @@
         <ion-button slot="end" (click)="takeOrUploadFoto()">
           <ion-icon name="camera"></ion-icon>
         </ion-button>
-        <ion-toast id="dynamicToast" duration="3000" message="Waehle aus"></ion-toast>
+        <ion-toast id="dynamicToast" duration="3000" message="Choose an option"></ion-toast>
         <ion-input [(ngModel)]="formData.img"></ion-input>
-      </ion-item>      
+        <input #fileUploadInput type="file" accept="image/*" style="display: none;" (change)="onFileSelected($event)" />
+        <input id="cameraInput" type="file" accept="image/*" capture="camera" style="display: none;" (change)="onCameraCapture($event)" />
+      </ion-item>
+      <ion-img *ngIf="formData.img" [src]="formData.img"></ion-img>
+           
         <ion-button style="display: flex; justify-content: center;"  slot="start" (click)="submitForm()">Hinzufuegen</ion-button>
         <ion-button  style="display: flex; justify-content: center" slot="end" color="danger" (click)="hideForm()">Abbrechen</ion-button>
     </ion-card-content>

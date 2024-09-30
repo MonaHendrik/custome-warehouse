@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CostumeService } from '../services/costume.service';
 import { ToastController } from '@ionic/angular';
@@ -9,6 +9,7 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['home.page.scss']
 })
 export class homePage {
+  @ViewChild('fileUploadInput', { static: false }) fileUploadInput!: ElementRef;
   showForm = false;
   formData = {
     name: '',
@@ -88,37 +89,98 @@ export class homePage {
 
   hideForm() {
     this.showForm = false;
+    this.resetForm();
     
   }
 
   takeOrUploadFoto() {
     const toast = document.getElementById('dynamicToast') as HTMLIonToastElement;
-  
     if (toast) {
       toast.buttons = [
         {
           text: 'Bild hochladen', 
           role: 'upload',
           handler: () => {
-            console.log('Bild hochladen clicked');
-            
+            this.triggerFileUpload();
           },
         },
         {
           text: 'Bild aufnehmen', 
           role: 'camera',
           handler: () => {
-            console.log('Bild aufnehmen clicked');
+            this.triggerCamera();
           },
         },
       ];
-  
       toast.addEventListener('ionToastDidDismiss', (ev) => {
         const { role } = ev.detail;
         console.log(`Dismissed with role: ${role}`);
       });
-  
       toast.present();
     }
-  }  
+  }
+
+  triggerFileUpload() {
+    if (this.fileUploadInput) {
+      this.fileUploadInput.nativeElement.click();
+    } else {
+      console.error('File upload input not found!');
+    }
+  }
+
+  triggerCamera() {
+    const cameraInput = document.getElementById('cameraInput') as HTMLInputElement;
+    cameraInput.click(); 
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.formData.img = e.target.result;
+        console.log('Image selected:', this.formData.img);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onCameraCapture(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const imageSrc = e.target.result;
+  
+        this.compressImage(imageSrc, (compressedDataUrl) => {
+          this.formData.img = compressedDataUrl; 
+          console.log('Photo captured and compressed:', this.formData.img);
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  compressImage(src: string, callback: (compressedDataUrl: string) => void) {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Set desired output size (reduce resolution)
+      const maxWidth = 800; // Max width or height
+      const scaleSize = maxWidth / img.width;
+      
+      canvas.width = maxWidth;
+      canvas.height = img.height * scaleSize;
+      
+      ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+      
+      // Convert to base64 with reduced quality
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7); // 70% quality
+      callback(compressedDataUrl);
+    };
+  }
+
 }
