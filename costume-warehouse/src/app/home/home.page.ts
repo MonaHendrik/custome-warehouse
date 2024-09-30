@@ -92,7 +92,33 @@ export class homePage {
   }
 
   takeOrUploadFoto() {
-
-  }
-
+    const toast = document.getElementById('dynamicToast') as HTMLIonToastElement;
+  
+    if (toast) {
+      toast.buttons = [
+        {
+          text: 'Bild hochladen', 
+          role: 'upload',
+          handler: () => {
+            console.log('Bild hochladen clicked');
+            
+          },
+        },
+        {
+          text: 'Bild aufnehmen', 
+          role: 'camera',
+          handler: () => {
+            console.log('Bild aufnehmen clicked');
+          },
+        },
+      ];
+  
+      toast.addEventListener('ionToastDidDismiss', (ev) => {
+        const { role } = ev.detail;
+        console.log(`Dismissed with role: ${role}`);
+      });
+  
+      toast.present();
+    }
+  }  
 }

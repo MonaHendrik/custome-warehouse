@@ -60,11 +60,12 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating">Bild</ion-label>
-        <ion-button style="margin-left: 50px;" (click)="takeOrUploadFoto()">
+        <ion-button slot="end" (click)="takeOrUploadFoto()">
           <ion-icon name="camera"></ion-icon>
         </ion-button>
+        <ion-toast id="dynamicToast" duration="3000" message="Waehle aus"></ion-toast>
         <ion-input [(ngModel)]="formData.img"></ion-input>
-      </ion-item>
+      </ion-item>      
         <ion-button style="display: flex; justify-content: center;"  slot="start" (click)="submitForm()">Hinzufuegen</ion-button>
         <ion-button  style="display: flex; justify-content: center" slot="end" color="danger" (click)="hideForm()">Abbrechen</ion-button>
     </ion-card-content>
