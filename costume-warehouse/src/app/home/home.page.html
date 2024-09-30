@@ -42,11 +42,15 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating">Preis</ion-label>
-        <ion-input type="number" [(ngModel)]="formData.price"></ion-input>
-      </ion-item><ion-item>
+        <ion-input type="number" [(ngModel)]="formData.price">
+          <ion-text slot="end">€</ion-text>
+        </ion-input>
+      </ion-item>      
+      <ion-item>
         <ion-label position="floating">Groesse</ion-label>
         <ion-input [(ngModel)]="formData.size"></ion-input>
-      </ion-item><ion-item>
+      </ion-item>
+      <ion-item>
         <ion-label position="floating">Farbe</ion-label>
         <ion-input [(ngModel)]="formData.color"></ion-input>
       </ion-item>
