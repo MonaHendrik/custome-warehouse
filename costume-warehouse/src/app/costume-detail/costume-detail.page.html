@@ -14,7 +14,7 @@
 
 <ion-content>
   <ion-card *ngIf="!showForm">
-    <img *ngIf="formData.img" [src]="formData.img" alt="Hochgeladenes Bild" style="width: 100px; height: 100px;">
+    <img [src]="costume?.img" alt="Costume Image" />
     <ion-card-header>
       <ion-card-title>{{ costume?.name }}</ion-card-title>
     </ion-card-header>
